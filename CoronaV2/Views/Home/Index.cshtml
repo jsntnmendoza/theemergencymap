@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CoronaV2.Models.Register>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+<h2>@CoronaV2.Resources.Language.Home</h2>
+<hr />
+
+@*<div class="form-group">
+    <div>
+        Welcome @HttpContext.Current.User.Identity.Name
+    </div>
+</div>*@
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CrtdDate)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Latlng)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CrtdDate)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Latlng)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.ActionLink(@CoronaV2.Resources.Language.Edit, "Edit", new { RegisterID = item.RegisterID }) |
+                @Html.ActionLink(@CoronaV2.Resources.Language.Delete, "Delete", new { RegisterID = item.RegisterID }, new { @class = "aElimina" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*<div class="form-group">
+        <div>
+            @Html.ActionLink("Search", "Search", "Map", null, new { @class = "btn btn-primary btn-large" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.ActionLink("Register", "Register", "Map", null, new { @class = "btn btn-primary btn-large" })
+        </div>
+    </div>*@
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
+    {
+    <a href="javascript:document.getElementById('logoutForm').submit()">@CoronaV2.Resources.Language.Logout</a>
+    }
+}
+
+@section scripts{
+    <script>
+        $(".aElimina").click(function (event) {
+            if (!confirm('Are you sure?')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+}

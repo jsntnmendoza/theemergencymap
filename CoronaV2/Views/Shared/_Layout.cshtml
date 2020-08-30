@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title|TheEmergencyMap</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+
+    <link rel="icon" href="~/Content/Images/Logo.ico"/>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("The Emergency Map", "Search", "Map", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Home, "Index", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Search, "Search", "Map")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Publish, "Register", "Map")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Donations, "Donations", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Contact, "Contact", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Idiom, "Language", "Home")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Login, "Login", "User")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Search, "Search", "Map")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Publish, "Login", "User")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Donations, "Donations", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Contact, "Contact", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Idiom, "Language", "Home")</li>
+                    }
+                </ul>
+                @*<ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                             <div class="wrapper">
+                                 @Html.AntiForgeryToken()
+                                 <input type="submit" value="Logout" class="btn btn-default" />
+                             </div>
+                            }
+                        </li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Search, "Search", "Map")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Donations, "Donations", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Contact, "Contact", "Home")</li>
+                        <li>@Html.ActionLink(CoronaV2.Resources.Language.Idiom, "Language", "Home")</li>
+                    }
+                </ul>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2020 - @DateTime.Now.Year - The Emergency Map</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

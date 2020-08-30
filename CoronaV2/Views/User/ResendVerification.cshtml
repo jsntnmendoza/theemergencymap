@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "ResendVerification";
+}
+
+<h2>@CoronaV2.Resources.Language.ResendVerification</h2>
+
+<hr />
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">Email ID</label>
+            @Html.TextBox("EmailID", "", new { @class = "form--control" })
+
+            <input type="submit" value="Submit" class="btn btn-success" />
+
+            @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+            {
+                <label class="text-success">
+                    @ViewBag.Message
+                </label>
+            }
+            else
+            {
+                <label class="text-danger">
+                    @ViewBag.Message
+                </label>
+            }
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink(@CoronaV2.Resources.Language.Back, "Login")
+    </div>
+}

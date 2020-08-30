@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CoronaV2.Models.Marker>
+
+<select class="form-control" id="MarkerID" name="MarkerID">
+    <option value="">@CoronaV2.Resources.Language.SelectMarker</option>
+
+    @if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "es")
+    {
+        foreach (var item in Model)
+        {
+            <option value="@item.MarkerID">@item.Spanish</option>
+        }
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "en")
+    {
+        foreach (var item in Model)
+        {
+            <option value="@item.MarkerID">@item.English</option>
+        }
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "pt")
+    {
+        foreach (var item in Model)
+        {
+            <option value="@item.MarkerID">@item.Portuguese</option>
+        }
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "de")
+    {
+        foreach (var item in Model)
+        {
+            <option value="@item.MarkerID">@item.German</option>
+        }
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "it")
+    {
+        foreach (var item in Model)
+        {
+            <option value="@item.MarkerID">@item.Italian</option>
+        }
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "fr")
+    {
+        foreach (var item in Model)
+        {
+            <option value="@item.MarkerID">@item.French</option>
+        }
+    }
+</select>

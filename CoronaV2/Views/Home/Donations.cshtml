@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Donations";
+}
+
+<h2>@CoronaV2.Resources.Language.Donations</h2>
+<hr />
+
+<div class="col-md-12 text-center">
+    <img src="~/Content/Images/Donations04.jpg" alt="Smiley face" style="float:right; width: 20%; height: 20%;" hspace="20">
+    @if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "es")
+    {
+        <p align="left">Hola <strong>@ViewBag.FirstName</strong>,</p>
+        <p align="justify">
+            Esta aplicación web fue creada para ayudar a la mayor cantidad de familias en el mundo cuando se atraviese una emergencia,
+            podrás publicar y buscar puntos de ayuda y de comercio en el mapa de tu ciudad de forma rápida y fácil.
+            Sin embargo, para mantener este proyecto activo, requiero de tu ayuda económica para pagar todos los servicios
+            de mantenimiento de la página y futuras actualizaciones.
+        </p>
+        <p align="justify">
+            Por otra parte, mi país Perú no cuenta con la economía suficiente
+            para afrontar las largas temporadas de cuarentena que han provocado hambre y desempleo. Mi familia y yo ayudamos semanalmente
+            a diferentes familias sin ingresos donando víveres, medicinas y un espacio en nuestro hogar.
+        </p>
+        <p align="left">
+            En caso desees realizar una donación haz click en el siguiente enlace:
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "en")
+    {
+        <p align="left">Hello <strong>@ViewBag.FirstName</strong>,</p>
+        <p align="justify">
+            This web application was created to help families around the world when an emergency happens,
+            you will be able to publish and search for help and trade points on the map of your city quickly and easily.
+            However, to keep this project active, I require your financial help to pay for all web page maintenance services and future updates.
+        </p>
+        <p align="justify">
+            On the other hand, my country 'Peru' does not have sufficient resources to face the long seasons of quarantine,
+            causing hunger and unemployment in my country. My family and I help different families weekly with donations of food,
+            medicine and housing.
+        </p>
+        <p align="left">
+            In case you want to make a donation, click on the following link:
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "pt")
+    {
+        <p align="left">
+            Olá <strong>@ViewBag.FirstName</strong>,
+        </p>
+        <p align="justify">
+            Este aplicativo da web foi criado para ajudar famílias de todo o mundo em situações de emergência. Você poderá publicar e 
+            procurar ajuda e trocar pontos no mapa da sua cidade com rapidez e facilidade. No entanto, para manter este projeto ativo,
+            preciso de sua ajuda financeira para pagar por todos os serviços de manutenção de páginas da web e atualizações futuras.
+        </p>
+        <p align="justify">
+            Por outro lado, o meu país 'Peru' não possui recursos suficientes para enfrentar as longas temporadas de quarentena,
+            causando fome e desemprego no meu país. Minha família e eu ajudamos famílias diferentes semanalmente com doações de alimentos,
+            remédios e moradia.
+        </p>
+        <p align="left">
+            Caso você queira fazer uma doação, clique no seguinte link:
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "de")
+    {
+        <p align="left">Hallo <strong>@ViewBag.FirstName</strong>,</p>
+        <p align="justify">
+            Diese Webanwendung wurde erstellt, um Familien auf der ganzen Welt im Notfall zu helfen. Sie können schnell und einfach 
+            auf der Karte Ihrer Stadt Hilfe und Handelspunkte veröffentlichen und suchen. Um dieses Projekt aktiv zu halten, benötige ich
+            jedoch Ihre finanzielle Hilfe, um alle Wartungsdienste für Webseiten und zukünftige Updates zu bezahlen.
+        </p>
+        <p align="justify">
+            Andererseits verfügt mein Land "Peru" nicht über ausreichende Ressourcen, um den langen Quarantänezeiten zu begegnen,
+            die in meinem Land Hunger und Arbeitslosigkeit verursachen. Meine Familie und ich helfen wöchentlich verschiedenen
+            Familien mit Spenden von Lebensmitteln, Medikamenten und Wohnraum.
+        </p>
+        <p align="left">
+            Wenn Sie spenden möchten, klicken Sie auf den folgenden Link:
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "it")
+    {
+        <p align="left">Ciao <strong>@ViewBag.FirstName</strong>,</p>
+        <p align="justify">
+            Questa applicazione web è stata creata per aiutare le famiglie di tutto il mondo quando si verifica un'emergenza, sarai in 
+            grado di pubblicare e cercare aiuto e scambiare punti sulla mappa della tua città in modo rapido e semplice. Tuttavia, per mantenere
+            attivo questo progetto, ho bisogno del tuo aiuto finanziario per pagare tutti i servizi di manutenzione delle pagine Web e
+            gli aggiornamenti futuri.
+        </p>
+        <p align="justify">
+
+            D'altra parte, il mio paese "Perù" non ha risorse sufficienti per affrontare le lunghe stagioni di quarantena, causando
+            fame e disoccupazione nel mio paese. Io e la mia famiglia aiutiamo settimanalmente diverse famiglie con donazioni di cibo,
+            medicine e alloggio.
+        </p>
+        <p align="left">
+            Nel caso in cui desideri effettuare una donazione, fai clic sul seguente link:
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "fr")
+    {
+        <p align="left">
+            Bonjour <strong>@ViewBag.FirstName</strong>,
+        </p>
+        <p align="justify">
+            Cette application Web a été créée pour aider les familles du monde entier en cas d'urgence, vous pourrez publier et rechercher 
+            de l'aide et des points d'échange sur la carte de votre ville rapidement et facilement. Cependant, pour garder ce projet
+            actif, j'ai besoin de votre aide financière pour payer tous les services de maintenance de pages Web et les mises à jour futures.
+        </p>
+        <p align="justify">
+            D'un autre côté, mon pays, le Pérou, ne dispose pas de ressources suffisantes pour faire face aux longues saisons
+            de quarantaine, qui provoquent la faim et le chômage dans mon pays. Ma famille et moi aidons chaque semaine différentes
+            familles avec des dons de nourriture, de médicaments et de logement.
+        </p>
+        <p align="left">
+            Si vous souhaitez faire un don, cliquez sur le lien suivant:
+        </p>
+    }
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick" />
+        <input type="hidden" name="hosted_button_id" value="NZ8KMSP4WECEC" />
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="Donar haciendo click aquí" alt="Donate with PayPal button" />
+        <img alt="" border="0" src="https://www.paypal.com/en_PE/i/scr/pixel.gif" width="1" height="1" />
+    </form>
+
+    @if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "es")
+    {
+        <p align="justify">
+            Tu donación nos permitirá mantener este proyecto y ayudar a más familias. Si deseas conocer el detalle de lo que
+            tu donación pudo aportar, envíame un correo a
+            <strong>theemergencymap@gmail.com</strong> para enviarte las fotos de la entrega de víveres y comprobantes de pago.
+        </p>
+        <p align="right">
+            Atentamente,
+            <br /><strong>Jose Mendoza</strong>
+            <br />Fundador
+            <br />
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "en")
+    {
+        <p align="justify">
+            Your donation will allow us to maintain this project and help more families. If you want to know the details
+            of what your donation could contribute, send me an email to
+            <strong>theemergencymap@gmail.com</strong> to reply with the photos of the evidence.
+        </p>
+        <p align="right">
+            Best regards,
+            <br /><strong>Jose Mendoza</strong>
+            <br />Founder
+            <br />
+            <br />
+            <br />
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "pt")
+    {
+        <p align="justify">
+            Sua doação nos permitirá manter este projeto e ajudar mais famílias. Se você quiser saber
+            os detalhes de que sua doação poderia contribuir, envie-me um e-mail para
+            <strong>theemergencymap@gmail.com</strong> para responder com as fotos da evidência.
+        </p>
+        <p align="right">
+            Cumprimentos,
+            <br /><strong>Jose Mendoza</strong>
+            <br />Fundador
+            <br />
+            <br />
+            <br />
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "de")
+    {
+        <p align="justify">
+
+            Ihre Spende ermöglicht es uns, dieses Projekt aufrechtzuerhalten und mehr Familien zu helfen. Wenn Sie wissen
+            möchten, was Ihre Spende beitragen könnte, senden Sie mir eine E-Mail an
+            <strong>theemergencymap@gmail.com</strong> mit den Fotos der Beweise zu antworten.
+        </p>
+        <p align="right">
+            Freundliche Grüße,
+            <br /><strong>Jose Mendoza</strong>
+            <br />Gründer
+            <br />
+            <br />
+            <br />
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "it")
+    {
+        <p align="justify">
+
+            La tua donazione ci consentirà di mantenere questo progetto e aiutare più famiglie. Se vuoi conoscere i
+            dettagli di ciò che la tua donazione potrebbe contribuire, mandami una email a
+            <strong>theemergencymap@gmail.com</strong> per rispondere con le foto delle prove.
+        </p>
+        <p align="right">
+            I migliori saluti,
+            <br /><strong>Jose Mendoza</strong>
+            <br />Fondatore
+            <br />
+            <br />
+            <br />
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "fr")
+    {
+        <p align="justify">
+            Votre don nous permettra de maintenir ce projet et d'aider plus de familles. Si vous souhaitez connaître
+            les détails de ce que votre don pourrait apporter, envoyez-moi un e-mail à
+            <strong>theemergencymap@gmail.com</strong> de répondre avec les photos des preuves.
+        </p>
+        <p align="right">
+            Meilleures salutations,
+            <br /><strong>Jose Mendoza</strong>
+            <br />Fondateur
+            <br />
+            <br />
+            <br />
+        </p>
+    }
+</div>
+
+

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<CoronaV2.Models.City>
+
+<select class="form-control" id="CityID" name="CityID">
+    <option value="">@CoronaV2.Resources.Language.SelectCity</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.CityID">@item.City1</option>
+    }
+</select>
+
+

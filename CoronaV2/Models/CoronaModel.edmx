@@ -1,0 +1,531 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CoronaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StateID" Type="int" Nullable="false" />
+          <Property Name="Lat" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lon" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marker">
+          <Key>
+            <PropertyRef Name="MarkerID" />
+          </Key>
+          <Property Name="MarkerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Marker" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="English" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Spanish" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Italian" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="French" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="German" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Portuguese" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Register">
+          <Key>
+            <PropertyRef Name="RegisterID" />
+          </Key>
+          <Property Name="RegisterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Latlng" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="MarkerID" Type="int" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CrtdDate" Type="date" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar(max)" />
+          <Property Name="Contact" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResetPasswordCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="DocumentID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CORONA2.dbo.V_RegByCity' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_RegByCity">
+          <Key>
+            <PropertyRef Name="RegisterID" />
+            <PropertyRef Name="Latlng" />
+            <PropertyRef Name="Message" />
+            <PropertyRef Name="MarkerID" />
+            <PropertyRef Name="Url" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="FirstName" />
+          </Key>
+          <Property Name="RegisterID" Type="int" Nullable="false" />
+          <Property Name="Latlng" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="MarkerID" Type="int" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="Lat" Type="varchar" MaxLength="100" />
+          <Property Name="Lon" Type="varchar" MaxLength="8000" />
+          <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageHtml" Type="varchar(max)" />
+          <Property Name="Contact" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_City_State">
+          <End Role="State" Type="Self.State" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Register_Marker">
+          <End Role="Marker" Type="Self.Marker" Multiplicity="1" />
+          <End Role="Register" Type="Self.Register" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marker">
+              <PropertyRef Name="MarkerID" />
+            </Principal>
+            <Dependent Role="Register">
+              <PropertyRef Name="MarkerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Register_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Register" Type="Self.Register" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Register">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_State_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="State" Type="Self.State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CoronaModelStoreContainer">
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marker" EntityType="Self.Marker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Register" EntityType="Self.Register" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_RegByCity" EntityType="Self.V_RegByCity" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_RegByCity].[RegisterID] AS [RegisterID], 
+    [V_RegByCity].[Latlng] AS [Latlng], 
+    [V_RegByCity].[Message] AS [Message], 
+    [V_RegByCity].[MarkerID] AS [MarkerID], 
+    [V_RegByCity].[Url] AS [Url], 
+    [V_RegByCity].[CityID] AS [CityID], 
+    [V_RegByCity].[Lat] AS [Lat], 
+    [V_RegByCity].[Lon] AS [Lon], 
+    [V_RegByCity].[Address] AS [Address], 
+    [V_RegByCity].[FirstName] AS [FirstName], 
+    [V_RegByCity].[ImageHtml] AS [ImageHtml], 
+    [V_RegByCity].[Contact] AS [Contact]
+    FROM [dbo].[V_RegByCity] AS [V_RegByCity]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Register_Marker" Association="Self.FK_Register_Marker">
+            <End Role="Marker" EntitySet="Marker" />
+            <End Role="Register" EntitySet="Register" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Register_User" Association="Self.FK_Register_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Register" EntitySet="Register" />
+          </AssociationSet>
+          <AssociationSet Name="FK_State_Country" Association="Self.FK_State_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="State" EntitySet="State" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Country" Association="Self.FK_User_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CoronaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CoronaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="City" EntityType="CoronaModel.City" />
+          <EntitySet Name="Country" EntityType="CoronaModel.Country" />
+          <EntitySet Name="Marker" EntityType="CoronaModel.Marker" />
+          <EntitySet Name="Register" EntityType="CoronaModel.Register" />
+          <EntitySet Name="State" EntityType="CoronaModel.State" />
+          <EntitySet Name="User" EntityType="CoronaModel.User" />
+          <AssociationSet Name="FK_City_State" Association="CoronaModel.FK_City_State">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_State_Country" Association="CoronaModel.FK_State_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="State" EntitySet="State" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Country" Association="CoronaModel.FK_User_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Register_Marker" Association="CoronaModel.FK_Register_Marker">
+            <End Role="Marker" EntitySet="Marker" />
+            <End Role="Register" EntitySet="Register" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Register_User" Association="CoronaModel.FK_Register_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Register" EntitySet="Register" />
+          </AssociationSet>
+          <EntitySet Name="V_RegByCity" EntityType="CoronaModel.V_RegByCity" />
+        </EntityContainer>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="City1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StateID" Type="Int32" Nullable="false" />
+          <Property Name="Lat" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Lon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="State" Relationship="CoronaModel.FK_City_State" FromRole="City" ToRole="State" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Country1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="State" Relationship="CoronaModel.FK_State_Country" FromRole="Country" ToRole="State" />
+          <NavigationProperty Name="User" Relationship="CoronaModel.FK_User_Country" FromRole="Country" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Marker">
+          <Key>
+            <PropertyRef Name="MarkerID" />
+          </Key>
+          <Property Name="MarkerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Marker1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="English" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Spanish" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Italian" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="French" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="German" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Portuguese" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Register" Relationship="CoronaModel.FK_Register_Marker" FromRole="Marker" ToRole="Register" />
+        </EntityType>
+        <EntityType Name="Register">
+          <Key>
+            <PropertyRef Name="RegisterID" />
+          </Key>
+          <Property Name="RegisterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Latlng" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MarkerID" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="CrtdDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Marker" Relationship="CoronaModel.FK_Register_Marker" FromRole="Register" ToRole="Marker" />
+          <NavigationProperty Name="User" Relationship="CoronaModel.FK_Register_User" FromRole="Register" ToRole="User" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="State1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="CoronaModel.FK_City_State" FromRole="State" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="CoronaModel.FK_State_Country" FromRole="State" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailID" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" Nullable="false" />
+          <Property Name="ResetPasswordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Country" Relationship="CoronaModel.FK_User_Country" FromRole="User" ToRole="Country" />
+          <NavigationProperty Name="Register" Relationship="CoronaModel.FK_Register_User" FromRole="User" ToRole="Register" />
+        </EntityType>
+        <Association Name="FK_City_State">
+          <End Type="CoronaModel.State" Role="State" Multiplicity="1" />
+          <End Type="CoronaModel.City" Role="City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_State_Country">
+          <End Type="CoronaModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="CoronaModel.State" Role="State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Country">
+          <End Type="CoronaModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="CoronaModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Register_Marker">
+          <End Type="CoronaModel.Marker" Role="Marker" Multiplicity="1" />
+          <End Type="CoronaModel.Register" Role="Register" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marker">
+              <PropertyRef Name="MarkerID" />
+            </Principal>
+            <Dependent Role="Register">
+              <PropertyRef Name="MarkerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Register_User">
+          <End Type="CoronaModel.User" Role="User" Multiplicity="1" />
+          <End Type="CoronaModel.Register" Role="Register" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Register">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="V_RegByCity">
+          <Key>
+            <PropertyRef Name="RegisterID" />
+            <PropertyRef Name="Latlng" />
+            <PropertyRef Name="Message" />
+            <PropertyRef Name="MarkerID" />
+            <PropertyRef Name="Url" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="FirstName" />
+          </Key>
+          <Property Name="RegisterID" Type="Int32" Nullable="false" />
+          <Property Name="Latlng" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MarkerID" Type="Int32" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="Lat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Lon" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ImageHtml" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CoronaModelStoreContainer" CdmEntityContainer="CoronaEntities">
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="CoronaModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Lon" ColumnName="Lon" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="City1" ColumnName="City" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="CoronaModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Country1" ColumnName="Country" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marker">
+            <EntityTypeMapping TypeName="CoronaModel.Marker">
+              <MappingFragment StoreEntitySet="Marker">
+                <ScalarProperty Name="Portuguese" ColumnName="Portuguese" />
+                <ScalarProperty Name="German" ColumnName="German" />
+                <ScalarProperty Name="French" ColumnName="French" />
+                <ScalarProperty Name="Italian" ColumnName="Italian" />
+                <ScalarProperty Name="Spanish" ColumnName="Spanish" />
+                <ScalarProperty Name="English" ColumnName="English" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Marker1" ColumnName="Marker" />
+                <ScalarProperty Name="MarkerID" ColumnName="MarkerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Register">
+            <EntityTypeMapping TypeName="CoronaModel.Register">
+              <MappingFragment StoreEntitySet="Register">
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CrtdDate" ColumnName="CrtdDate" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MarkerID" ColumnName="MarkerID" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Latlng" ColumnName="Latlng" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="State">
+            <EntityTypeMapping TypeName="CoronaModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="State1" ColumnName="State" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="CoronaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="ResetPasswordCode" ColumnName="ResetPasswordCode" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_RegByCity">
+            <EntityTypeMapping TypeName="CoronaModel.V_RegByCity">
+              <MappingFragment StoreEntitySet="V_RegByCity">
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ImageHtml" ColumnName="ImageHtml" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Lon" ColumnName="Lon" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="MarkerID" ColumnName="MarkerID" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Latlng" ColumnName="Latlng" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Language";
+}
+
+<h2>@CoronaV2.Resources.Language.Idiom</h2>
+<hr />
+<ul>
+    <li>@Html.ActionLink("English", "Language", "Home", new { language = "en" }, null)</li>
+    <li>@Html.ActionLink("Español", "Language", "Home", new { language = "es" }, null)</li>
+    <li>@Html.ActionLink("Italiano", "Language", "Home", new { language = "it" }, null)</li>
+    <li>@Html.ActionLink("Français", "Language", "Home", new { language = "fr" }, null)</li>
+    <li>@Html.ActionLink("Deutsche", "Language", "Home", new { language = "de" }, null)</li>
+    <li>@Html.ActionLink("Português", "Language", "Home", new { language = "pt" }, null)</li>
+</ul>

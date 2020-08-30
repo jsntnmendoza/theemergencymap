@@ -1,0 +1,292 @@
+﻿@model CoronaV2.Models.Register
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@CoronaV2.Resources.Language.Publish</h2>
+<hr />
+<style>
+    #map {
+        height: 800px;
+        width: 1100px;
+    }
+</style>
+
+<div class="form-group">
+    <div>
+        <table>
+            <tr>
+                <th>@CoronaV2.Resources.Language.Country</th>
+                <th>@CoronaV2.Resources.Language.State</th>
+                <th>@CoronaV2.Resources.Language.City</th>
+            </tr>
+            <tr>
+                <th>@Html.Action("Countries", "User")</th>
+                <th>@Html.DropDownList("StateID", new SelectList(""), @CoronaV2.Resources.Language.SelectState, new { @class = "form-control" })</th>
+                <th>@Html.DropDownList("CityID", new SelectList(""), @CoronaV2.Resources.Language.SelectCity, new { @class = "form-control" })</th>
+                <th><input id="btnLocation" type="image" src="~/Content/Images/Location-icon.png" width="30" height="30" /></th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="errorid" class="alert alert-danger" style="display:none;">
+    <strong>@CoronaV2.Resources.Language.ErrorLocalization</strong>
+</div>
+
+<div class="row">
+    <div id="map" style="width: 100%; height: 70vh;"></div>
+</div>
+
+<br />
+
+@using (Html.BeginForm("Register", "Map", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.CityID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CityID, new { htmlAttributes = new { @class = "form-control", id = "txtCityID", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Latlng, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Latlng, new { htmlAttributes = new { @class = "form-control", id = "txtLatlng", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Latlng, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Message, 10, 50, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MarkerID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Action("Markers", "Map")
+                @Html.ValidationMessageFor(model => model.MarkerID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="ImageFile" accept="image/x-png,image/jpeg" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@CoronaV2.Resources.Language.Publish class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            //Map options
+            var options = {
+                zoom: 12,
+                center: { lat: -77.828718, lng: 32.329729 }
+            }
+            //New map
+            var map = new
+                google.maps.Map(document.getElementById('map'), options)
+
+            //Listen for click on map
+            google.maps.event.addListener(map, 'click',
+                function (event) {
+                    //Add Marker
+                    addMarker({ coords: event.latLng });
+                    debugger;
+                    $('#txtLatlng').val(event.latLng.toString());
+                });
+
+            //addMarker({
+            //    coords: { lat: 42.4668, lng: -70.9495 },
+            //    iconImage: 'http://maps.google.com/mapfiles/kml/shapes/phone.png',
+            //    content: '<label>Prueba</label>'
+            //});
+
+            function addMarker(props) {
+                //debugger;
+                if (marker) {
+                    marker.setPosition(props.coords);
+                }
+                else {
+                    marker = new google.maps.Marker({
+                        position: props.coords,
+                        map: map
+                    });
+                    if (props.iconImage) {
+                        marker.setIcon(props.iconImage);
+                    }
+                    if (props.content) {
+                        var infoWindow = new google.maps.InfoWindow({
+                            content: props.content
+                        });
+
+                        marker.addListener('click', function () {
+                            infoWindow.open(map, marker);
+                        });
+
+                        marker.addListener('mouseout', function () {
+                            infoWindow.close();
+                        });
+                    }
+                }
+            }
+            function newLocation(newLat, newLng) {
+                map.setCenter({
+                    lat: newLat,
+                    lng: newLng
+                });
+            }
+
+            $("#CityID").change(function () {
+                var CityID = $(this).val();
+                debugger
+                //$.get("/Map/SearchByCity?CityID=" + CityID, function (data,success) {
+                //    //$(".result").html(data);
+                //    alert("Load was performed.");
+                //});
+                $.ajax({
+                    type: "Post",
+                    url: "/Map/SearchByCity?CityID=" + CityID,
+                    contentType: "application/json;charset=utf-8",
+                    contentType: "json",
+                    success: function (result) {
+                        debugger;
+                        $('#txtCityID').val(CityID);
+                        newLocation(parseFloat(result[0].Lat), parseFloat(result[0].Lon));
+                        map.setZoom(12);
+                    }
+                });
+            });
+
+            $('#btnLocation').click(function () {
+                debugger;
+                var CityID = $("#CityID").val();
+                var x = document.getElementById("errorid");
+                if (CityID != "") {
+                    x.style.display = "none";
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            function (position) {
+                                newLocation(parseFloat(position.coords.latitude), parseFloat(position.coords.longitude));
+                                addMarker({
+                                coords: { lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude) },
+                                iconImage: "/Content/Images/Location-map.png"
+                                })
+                                $('#txtLatlng').val("(" + position.coords.latitude.toString() + ", " + position.coords.longitude.toString() + ")");
+                                map.setZoom(18);
+                            });
+                    }
+                }
+                else {
+                    x.style.display = "block";
+                }
+            })
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdybEqw9NHRp3BzIv4JY00wGBVYbtfyjM&callback=initMap"
+            async defer></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#CountryID").change(function () {
+
+                var CountryID = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/User/States?CountryID=" + CountryID,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#StateID").empty();
+                        $("#StateID").html(response);
+                    }
+                })
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#StateID").change(function () {
+                var StateID = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/User/Cities?StateID=" + StateID,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#CityID").empty();
+                        $("#CityID").html(response);
+                    }
+                })
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "Post",
+                url: "/User/UserCountry",
+                contentType: "html",
+                success: function (result) {
+                    $("#CountryID").val(result).change();
+                }
+            })
+        })
+    </script>
+}

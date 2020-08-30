@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+}
+
+<h2>@CoronaV2.Resources.Language.Contact</h2>
+<hr />
+
+<div class="col-md-12 text-center">
+    @if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "es")
+    {
+        <p align="justify">
+            Si deseas trabajar conmigo en esta aplicación o necesitas de mi apoyo en el desarrollo de otros proyectos de tecnología
+            de la información, envíame un correo a <strong>theemergencymap@gmail.com</strong> o contáctame por medio de mis redes
+            sociales.
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "en")
+    {
+        <p align="justify">
+            If you want to work with me on this application or if you need my support in the development of other information
+            technology projects, send me an email to <strong>theemergencymap@gmail.com</strong> or contact me on my social networks.
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "pt")
+    {
+        <p align="justify">
+            Se você quiser trabalhar comigo neste aplicativo ou se precisar do meu apoio no desenvolvimento de outros projetos de
+            tecnologia da informação, envie-me um email para <strong>theemergencymap@gmail.com</strong> ou entre em contato comigo 
+            nas minhas redes sociais.
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "de")
+    {
+        <p align="justify">
+            Wenn Sie mit mir an dieser Anwendung arbeiten möchten oder meine Unterstützung bei der Entwicklung anderer Informationstechnologieprojekte
+            benötigen, senden Sie mir eine E-Mail an <strong>theemergencymap@gmail.com</strong> oder kontaktieren Sie mich in meinen sozialen Netzwerken.
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "it")
+    {
+        <p align="justify">
+            Se vuoi lavorare con me su questa applicazione o se hai bisogno del mio supporto per lo sviluppo di altri progetti di
+            tecnologia dell'informazione, inviami una email a <strong>theemergencymap@gmail.com</strong> o contattami sui miei social network.
+        </p>
+    }
+    else if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "fr")
+    {
+        <p align="justify">
+            Si vous souhaitez travailler avec moi sur cette application ou si vous avez besoin de mon soutien dans le développement
+            d'autres projets informatiques, envoyez-moi un mail à <strong>theemergencymap@gmail.com</strong> ou contactez-moi sur mes réseaux sociaux.
+        </p>
+    }
+    <p align="left">
+        <a href="https://www.facebook.com/jsntnmendoza/" target="_blank">
+            <img src="~/Content/Images/facebook-logo.png" alt="Facebook" />
+        </a>
+        <a href="https://www.linkedin.com/in/jsntnmendoza/" target="_blank">
+            <img src="~/Content/Images/linkedin-logo.png" alt="Linkedin" />
+        </a>
+    </p>
+</div>

@@ -1,0 +1,258 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+<h2>@CoronaV2.Resources.Language.Search</h2>
+<hr />
+
+<style>
+    #map {
+        height: 800px;
+        width: 1100px;
+    }
+</style>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong>@ViewBag.Message
+    </div>
+}
+
+<div class="form-group">
+    <div>
+        <table>
+            <tr>
+                <th>@CoronaV2.Resources.Language.Country</th>
+                <th>@CoronaV2.Resources.Language.State</th>
+                <th>@CoronaV2.Resources.Language.City</th>
+                <th>@CoronaV2.Resources.Language.Marker</th>
+            </tr>
+            <tr>
+                <th>@Html.Action("Countries", "User")</th>
+                <th>@Html.DropDownList("StateID", new SelectList(""), @CoronaV2.Resources.Language.SelectState, new { @class = "form-control" })</th>
+                <th>@Html.DropDownList("CityID", new SelectList(""), @CoronaV2.Resources.Language.SelectCity, new { @class = "form-control" })</th>
+                <th>@Html.Action("Markers", "Map")</th>
+                <th><input id="btnLocation" type="image" src="~/Content/Images/Location-icon.png" width="30" height="30" /></th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="errorid" class="alert alert-danger" style="display:none;">
+    <strong>@CoronaV2.Resources.Language.ErrorLocalization</strong>
+</div>
+
+<div class="row">
+    <div id="map" style="width: 100%; height: 70vh;"></div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+        var map;
+        var markers = [];
+        function initMap() {
+            //Map options
+            var options = {
+                zoom: 12,
+                center: { lat: -77.828718, lng: 32.329729 }
+            }
+            //New map
+            var map = new
+                google.maps.Map(document.getElementById('map'), options)
+            
+            function addMarker(props) {
+                var marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map
+                });
+                if (props.iconImage) {
+                    marker.setIcon(props.iconImage);
+                }
+                if (props.content) {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: props.content
+                    });
+
+                    marker.addListener('click', function () { //mouseover or click
+                        //if (infowindow) {
+                        //    infowindow.close();
+                        //}
+                        infoWindow.open(map, marker);
+                    });
+                    marker.addListener('mouseover', function () { //mouseover or click
+                        infoWindow.open(map, marker);
+                    });
+                    marker.addListener('mouseout', function () {
+                        infoWindow.close();
+                    });
+                }
+
+                markers.push(marker);
+            }
+            function newLocation(newLat, newLng) {
+                map.setCenter({
+                    lat: newLat,
+                    lng: newLng
+                });
+            }
+
+            function DeleteMarkers() {
+                //Loop through all the markers and remove
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                markers = [];
+            };
+
+            $("#CityID").change(function () {
+                var CityID = $(this).val();
+                var MarkerID = $("#MarkerID").val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Map/SearchByCity?CityID=" + CityID,
+                    //url: "/Map/SearchByCity",
+                    contentType: "application/json;charset=utf-8",
+                    contentType: "json",
+                    success: function (result) {
+                        //debugger;
+                        newLocation(parseFloat(result[0].Lat), parseFloat(result[0].Lon));
+                        map.setZoom(12);
+                    }
+                });
+                //debugger;
+                $.ajax({
+                    type: "Post",
+                    url: "/Map/RegisterByCityMarker?CityID=" + CityID + "&MarkerID=" + MarkerID,
+                    contentType: "application/json;charset=utf-8",
+                    contentType: "json",
+                    success: function (result) {
+                        debugger;
+                        DeleteMarkers();
+                        for (var i = 0; i < result.length; i++) {
+                            addMarker({
+                                coords: { lat: parseFloat(result[i].Lat), lng: parseFloat(result[i].Lon) },
+                                iconImage: result[i].Url,
+                                content:
+                                    //"<div style='float:left'><img src='/Image/chanchi205342508.png' width='100' height= '100'></div><div style='float:right; padding: 10px;'>" +
+                                    //"<img src='/Image/chanchi205342508.png' width='100' height= '100'>" + "<br/>" +
+                                    result[i].Message + '<br/>' +
+                                    '<strong>Address: </strong>' + result[i].Address + '<br/>' +
+                                    '<strong>Contact: </strong>' + result[i].Contact + '<br/>' +
+                                    result[i].ImageHtml 
+                                    //+ '<strong>' + result[i].FirstName + '</strong>'
+
+                            });
+                        }
+                    }
+                });
+            });
+            $("#MarkerID").change(function () {
+                var MarkerID = $(this).val();
+                var CityID = $("#CityID").val();
+                debugger;
+                $.ajax({
+                    type: "Post",
+                    url: "/Map/RegisterByCityMarker?CityID=" + CityID + "&MarkerID=" + MarkerID,
+                    contentType: "application/json;charset=utf-8",
+                    contentType: "json",
+                    success: function (result) {
+                        debugger;
+                        DeleteMarkers();
+                        for (var i = 0; i < result.length; i++) {
+                            addMarker({
+                                coords: { lat: parseFloat(result[i].Lat), lng: parseFloat(result[i].Lon) },
+                                iconImage: result[i].Url,
+                                content:
+                                    //"<div style='float:left'><img src='/Image/chanchi205342508.png' width='100' height= '100'></div><div style='float:right; padding: 10px;'>" +
+                                    //"<img src='/Image/chanchi205342508.png' width='100' height= '100'>" + "<br/>" +
+                                    result[i].Message + '<br/>' +
+                                    '<strong>Address: </strong>' + result[i].Address + '<br/>' +
+                                    '<strong>Contact: </strong>' + result[i].Contact + '<br/>' +
+                                    result[i].ImageHtml
+                                    //+ '<strong>' + result[i].FirstName + '</strong>'
+
+                            });
+                        }
+                    }
+                });
+            });
+            $('#btnLocation').click(function () {
+                debugger;
+                var CityID = $("#CityID").val();
+                var x = document.getElementById("errorid");
+                if (CityID != "") {
+                    x.style.display = "none";
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            newLocation(parseFloat(position.coords.latitude), parseFloat(position.coords.longitude));
+                            addMarker({
+                                coords: { lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude) },
+                                iconImage: "/Content/Images/Location-map.png"
+                            })
+                            map.setZoom(18);
+                        });
+                    }
+                }
+                else {
+                    x.style.display = "block";
+                }
+            })
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdybEqw9NHRp3BzIv4JY00wGBVYbtfyjM&callback=initMap"
+            async defer></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#CountryID").change(function () {
+
+                var CountryID = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/User/States?CountryID=" + CountryID,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#StateID").empty();
+                        $("#StateID").html(response);
+                    }
+                })
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#StateID").change(function () {
+                var StateID = $(this).val();
+                $.ajax({
+                    type: "Post",
+                    url: "/User/Cities?StateID=" + StateID,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#CityID").empty();
+                        $("#CityID").html(response);
+                    }
+                })
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "Post",
+                url: "/User/UserCountry",
+                contentType: "html",
+                success: function (result) {
+                    $("#CountryID").val(result).change();
+                }
+            })
+        })
+    </script>
+}
